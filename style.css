@@ -1,0 +1,70 @@
+body {
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(to bottom right, #e3f2fd, #ffffff);
+    text-align: center;
+    color: #333;
+    background-color: #f0f8ff;
+    padding: 30px;
+    transition: opacity 0.2s ease;
+  }
+  
+  h1 {
+    color: #2c3e50;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 30px;
+    text-align: center;
+    font-size: 16px;
+    border-radius: 12px;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  button:hover {
+    background-color: #388e3c;
+    transform: scale(1.05);
+  }
+  
+  .progress {
+    width: 80%;
+    background-color: #ccc;
+    margin: 20px auto;
+    height: 25px;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, #81c784, #388e3c);
+    transition: width 0.4s ease;
+  }
+  
+  @media (max-width: 600px) {
+    .button-container {
+      flex-direction: column;
+      gap: 10px;
+    }
+  
+    button {
+      width: 80%;
+      margin: 0 auto;
+    }
+  
+    canvas {
+      width: 100% !important;
+      height: auto !important;
+    }
+  }
+  

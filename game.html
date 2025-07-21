@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Snake – Belohnungsspiel</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    canvas {
+      background-color: #f0f0f0;
+      display: block;
+      margin: 0 auto;
+      border: 2px solid #2c3e50;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 Super gemacht! 🎉</h1>
+  <p>Spiele eine Runde Snake!</p>
+  <canvas id="gameCanvas" width="400" height="400"></canvas>
+  <p><button onclick="location.href='index.html'">Zurück zur Startseite</button></p>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const gridSize = 20;
+    let snake = [{ x: 160, y: 200 }];
+    let direction = "right";
+    let food = spawnFood();
+    let gameInterval;
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "ArrowUp" && direction !== "down") direction = "up";
+      if (e.key === "ArrowDown" && direction !== "up") direction = "down";
+      if (e.key === "ArrowLeft" && direction !== "right") direction = "left";
+      if (e.key === "ArrowRight" && direction !== "left") direction = "right";
+    });
+
+    function spawnFood() {
+      return {
+        x: Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize,
+        y: Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize
+      };
+    }
+
+    function gameLoop() {
+      const head = { ...snake[0] };
+      if (direction === "up") head.y -= gridSize;
+      if (direction === "down") head.y += gridSize;
+      if (direction === "left") head.x -= gridSize;
+      if (direction === "right") head.x += gridSize;
+
+      // Kollision mit Wand oder sich selbst
+      if (
+        head.x < 0 || head.x >= canvas.width ||
+        head.y < 0 || head.y >= canvas.height ||
+        snake.some(segment => segment.x === head.x && segment.y === head.y)
+      ) {
+        clearInterval(gameInterval);
+        alert("Game over!");
+        location.href = 'index.html';
+        return;
+      }
+
+      snake.unshift(head);
+
+      if (head.x === food.x && head.y === food.y) {
+        food = spawnFood();
+      } else {
+        snake.pop();
+      }
+
+      draw();
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Snake
+      ctx.fillStyle = "green";
+      snake.forEach(segment => {
+        ctx.fillRect(segment.x, segment.y, gridSize, gridSize);
+      });
+
+      // Food
+      ctx.fillStyle = "red";
+      ctx.fillRect(food.x, food.y, gridSize, gridSize);
+    }
+
+    gameInterval = setInterval(gameLoop, 150);
+  </script>
+</body>
+</html>
